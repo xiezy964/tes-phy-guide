@@ -1,0 +1,35 @@
+[project]
+name = "phyguide-tesseract-workflow"
+version = "0.1.0"
+description = "Manufacturing- and mesh-aware physics-guided diffusion prototype"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy>=1.24",
+  "scipy>=1.10",
+  "matplotlib>=3.7",
+  "scikit-image>=0.22",
+  "pillow>=9.0",
+]
+
+[project.optional-dependencies]
+jax = ["jax[cpu]>=0.4.30", "jax-fem"]
+tesseract = ["tesseract-core>=1.11", "tesseract-jax>=0.1", "equinox>=0.11"]
+mesh = ["gmsh>=4.12", "meshio>=5.3"]
+test = ["pytest>=8.0"]
+run = [
+  "jax[cpu]>=0.4.30",
+  "flax>=0.8",
+  "tesseract-core[runtime]>=1.11",
+  "matplotlib>=3.7",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "."]
+testpaths = ["tests"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"

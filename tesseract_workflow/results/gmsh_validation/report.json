@@ -1,0 +1,68 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "name": "circle",
+      "nodes": 863,
+      "cells": 1692,
+      "interface_edges": 268,
+      "interface_components": 1,
+      "cross_interface_cells": 0,
+      "max_contour_error": 4.564729996849707e-13,
+      "contour_error_limit": 0.011627906976744186,
+      "checks": {
+        "interface_is_tri3_edges": true,
+        "interface_vertex_degrees_valid": true,
+        "expected_interface_loops": true,
+        "no_cross_interface_cells": true,
+        "phase_tags_match_centroids": true,
+        "contour_error_within_pixel": true,
+        "vjp_has_level_set_shape": true,
+        "vjp_is_finite": true
+      },
+      "passed": true
+    },
+    {
+      "name": "annulus",
+      "nodes": 1478,
+      "cells": 2922,
+      "interface_edges": 512,
+      "interface_components": 2,
+      "cross_interface_cells": 0,
+      "max_contour_error": 4.612125718447252e-13,
+      "contour_error_limit": 0.011627906976744186,
+      "checks": {
+        "interface_is_tri3_edges": true,
+        "interface_vertex_degrees_valid": true,
+        "expected_interface_loops": true,
+        "no_cross_interface_cells": true,
+        "phase_tags_match_centroids": true,
+        "contour_error_within_pixel": true,
+        "vjp_has_level_set_shape": true,
+        "vjp_is_finite": true
+      },
+      "passed": true
+    },
+    {
+      "name": "three_inclusions",
+      "nodes": 1348,
+      "cells": 2662,
+      "interface_edges": 450,
+      "interface_components": 3,
+      "cross_interface_cells": 0,
+      "max_contour_error": 4.969062710842398e-13,
+      "contour_error_limit": 0.011627906976744186,
+      "checks": {
+        "interface_is_tri3_edges": true,
+        "interface_vertex_degrees_valid": true,
+        "expected_interface_loops": true,
+        "no_cross_interface_cells": true,
+        "phase_tags_match_centroids": true,
+        "contour_error_within_pixel": true,
+        "vjp_has_level_set_shape": true,
+        "vjp_is_finite": true
+      },
+      "passed": true
+    }
+  ]
+}

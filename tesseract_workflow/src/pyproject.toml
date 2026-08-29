@@ -1,0 +1,17 @@
+[project]
+name = "phyguide-tesseract-core"
+version = "0.1.0"
+description = "Project-local differentiable manufacturing, Gmsh meshing, and TRI3 FEM kernels"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy>=1.24",
+  "scipy>=1.10",
+  "scikit-image>=0.22",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]

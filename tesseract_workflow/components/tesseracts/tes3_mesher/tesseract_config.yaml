@@ -1,0 +1,9 @@
+name: "tes3_mesher"
+version: "0.1.0"
+description: "Gmsh level-set mesher with frozen-topology contour VJP."
+build_config:
+  target_platform: "native"
+  inherit_base_image_packages: true
+  extra_packages:
+    - gmsh
+    - python3-gmsh

@@ -1,0 +1,5 @@
+name: "tes4_fem"
+version: "0.1.0"
+description: "Differentiable TRI3 thermal FEM with material and coordinate sensitivities."
+build_config:
+  target_platform: "native"

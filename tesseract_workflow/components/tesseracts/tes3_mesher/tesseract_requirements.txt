@@ -1,0 +1,8 @@
+numpy>=1.24
+scipy>=1.10
+scikit-image>=0.22
+# Gmsh is installed from Debian's native ARM64 packages (see config), because
+# PyPI does not publish a Linux/aarch64 wheel.
+meshio>=5.3
+tesseract-core>=1.11
+../../../src

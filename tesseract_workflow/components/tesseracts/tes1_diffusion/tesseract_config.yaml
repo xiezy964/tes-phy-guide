@@ -1,0 +1,5 @@
+name: "tes1_diffusion"
+version: "0.1.0"
+description: "Differentiable VP-SDE diffusion step with physics-guided score injection."
+build_config:
+  target_platform: "native"

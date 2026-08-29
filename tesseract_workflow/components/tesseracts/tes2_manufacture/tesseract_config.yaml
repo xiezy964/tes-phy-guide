@@ -1,0 +1,5 @@
+name: "tes2_manufacture"
+version: "0.1.0"
+description: "Manufacturability projection with minimum feature size, connectivity, and surrogate VJP."
+build_config:
+  target_platform: "native"
