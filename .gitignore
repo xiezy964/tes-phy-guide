@@ -5,6 +5,9 @@ __pycache__/
 .venv/
 *.egg-info/
 
+# The trained checkpoint is distributed separately as a GitHub Release asset.
+diffusion/models/*.flax
+
 # Generated runs are reproducible and can be regenerated from the documented command.
 tesseract_workflow/results/local_full50/
 tesseract_workflow/results/strict_tesseract_target50/
