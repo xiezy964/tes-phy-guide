@@ -12,7 +12,16 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-jax = ["jax[cpu]>=0.4.30", "jax-fem"]
+jax = [
+  "jax[cpu]>=0.4.30",
+  "jax-fem",
+  "pyfiglet>=1.0",
+  "meshio>=5.3",
+  "fenics-basix",
+  "gmsh>=4.12",
+  "petsc>=3.20",
+  "petsc4py>=3.20",
+]
 tesseract = ["tesseract-core>=1.11", "tesseract-jax>=0.1", "equinox>=0.11"]
 mesh = ["gmsh>=4.12", "meshio>=5.3"]
 test = ["pytest>=8.0"]

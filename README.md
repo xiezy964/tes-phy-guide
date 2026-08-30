@@ -33,21 +33,23 @@ The first 20 sampling steps use the original structured 64×64 QUAD4 JAX-FEM gui
 
 ## Design result
 
-<video src="figs/design_flow.mp4" controls="controls" width="100%"></video>
+<video src="https://private-user-images.githubusercontent.com/167732730/643191491-cc95dcf2-e107-4e3a-8967-f81c38998ca9.mp4?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3ODgwNjYwNTgsIm5iZiI6MTc4ODA2NTc1OCwicGF0aCI6Ii8xNjc3MzI3MzAvNjQzMTkxNDkxLWNjOTVkY2YyLWUxMDctNGUzYS04OTY3LWY4MWMzODk5OGNhOS5tcDQ_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwODMwJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDgzMFQwNDU1NThaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1jMDZlOTUzY2IzYzIwMDNjZjEyZWUxYTcwYmMyMzkzMTEyYzI1ZWFlOWUyOTA4ZTdkZmM1YWI2MDQzMDAzNjA4JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LXR5cGU9dmlkZW8lMkZtcDQifQ.Lf1M70iKThVfvYrp_qFd9LGg4-Incc86x_4HQtoHF2E" controls width="100%"></video>
 
 ## Prerequisites
 
 1. Docker Desktop or Docker Engine must be running.
-2. Python 3.10+ with a virtual environment is required for the orchestration process and the original QUAD4 warm-up. Install JAX-FEM and its PETSc requirements in this environment. Specialized manufacturing, Gmsh, and TRI3 FEM dependencies are installed inside the Tesseract images.
+2. Python 3.10+ is required for the orchestration process and the original QUAD4 JAX-FEM warm-up.
 3. Download `vpsde_model_6400.flax` from the GitHub Releases page and place it at `diffusion/models/vpsde_model_6400.flax`. The trained checkpoint is distributed separately because of its size.
 
-Create the orchestration environment from the repository root:
+Create an environment and install the project from the repository root:
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate              # Windows: .venv\Scripts\activate
 pip install -e "./tesseract_workflow[run,jax]"
 ```
+
+This single command installs JAX, JAX-FEM, PETSc/`petsc4py`, Gmsh Python bindings, Flax, Tesseract, and the remaining runtime dependencies. If you are already inside `tesseract_workflow/`, use `pip install -e ".[run,jax]"` instead.
 
 ## Build the Tesseract components
 
