@@ -11,6 +11,11 @@ modular inverse-design workflow.
 We prepared a five-minute walkthrough of the workflow and its results:
 [watch the demo on YouTube](https://www.youtube.com/watch?v=wj88fCwxIfs).
 
+### Project write-up
+
+The detailed methodology, differentiable interfaces, and experimental results
+are described in the accompanying [project write-up](write_up.pdf).
+
 ### Tesseract workflow
 
 The workflow is built from four native Tesseract components:
