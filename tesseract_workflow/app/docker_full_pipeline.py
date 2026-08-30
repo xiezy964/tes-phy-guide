@@ -7,6 +7,7 @@ explicitly through the component VJP endpoints.
 from __future__ import annotations
 
 import argparse
+import io
 import json
 import sys
 import time
@@ -14,6 +15,7 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
@@ -84,6 +86,7 @@ def main():
     snapshots = []
     last_grad = np.zeros((64, 64))
     final_geometry = None
+    animation_frames = []
     started = time.perf_counter()
     try:
         for step in range(args.steps):
@@ -103,6 +106,7 @@ def main():
                 last_grad = np.asarray(grad)
                 nodes = cells = 0
                 phase = "pixel-warmup"
+                animation_frames.append(("pixel", phi.copy()))
             else:
                 manufacturing_inputs = {
                     "level_set": phi,
@@ -187,6 +191,7 @@ def main():
                 final_geometry = (clean, np.asarray(m["binary_mask"]), points, cells, tags, temperature)
                 nodes, cells_count = len(points), len(cells)
                 phase = "docker-manufacture+gmsh+fem"
+                animation_frames.append(("gmsh", points.copy(), cells.copy(), tags.copy()))
             grad_xt = jnp.asarray(last_grad)[None, :, :, None] / mean
             norm = jnp.linalg.norm(grad_xt)
             bt = beta_schedule(t)
@@ -207,6 +212,41 @@ def main():
     finally:
         for h in handles:
             h.teardown()
+
+    # GitHub-friendly convergence animation: blue pixel QUAD4 mesh during
+    # warm-up, red Gmsh TRI3 mesh afterwards, and conductivity on the right.
+    gif_frames = []
+    for index, frame in enumerate(animation_frames):
+        figure = plt.figure(figsize=(12, 5), dpi=120)
+        left = figure.add_axes([0.02, 0.05, 0.43, 0.90])
+        if frame[0] == "pixel":
+            phi_frame = frame[1]
+            left.imshow(np.clip((phi_frame + 1.0) / 2.0, 0.0, 1.0), cmap="gray_r", origin="lower", interpolation="nearest")
+            left.set_xlim(-0.5, 63.5); left.set_ylim(-0.5, 63.5)
+            for coordinate in np.arange(-0.5, 64.5, 1.0):
+                left.plot([coordinate, coordinate], [-0.5, 63.5], color="#1671ff", linewidth=0.16)
+                left.plot([-0.5, 63.5], [coordinate, coordinate], color="#1671ff", linewidth=0.16)
+        else:
+            _, frame_points, frame_cells, frame_tags = frame
+            left.tripcolor(frame_points[:, 0], frame_points[:, 1], frame_cells, facecolors=frame_tags,
+                           cmap="gray_r", vmin=0, vmax=1, edgecolors="#e11d2e", linewidth=0.12)
+            left.set_xlim(0, 1); left.set_ylim(0, 1)
+        left.set_aspect("equal"); left.set_xticks([]); left.set_yticks([])
+        for spine in left.spines.values(): spine.set_visible(False)
+        right = figure.add_axes([0.59, 0.15, 0.36, 0.70])
+        values = np.asarray(hist["conductance"][: index + 1])
+        right.plot(np.arange(1, index + 2), values, color="#c62828", linewidth=2)
+        right.axhline(args.target, color="#222", linestyle="--", linewidth=1)
+        right.scatter([index + 1], [values[-1]], color="#c62828", s=18)
+        right.set_xlim(1, args.steps); right.set_ylim(min(values.min(), args.target) - 2, max(values.max(), args.target) + 2)
+        right.set_xlabel("Sampling step", fontsize=17, labelpad=10)
+        right.set_ylabel(r"Effective conductivity (W m$^{-1}$ K$^{-1}$)", fontsize=17, labelpad=18)
+        right.tick_params(axis="both", labelsize=14); right.grid(alpha=0.25)
+        right.set_title(f"step {index + 1:02d}   k = {values[-1]:.4f}", fontsize=17, pad=10)
+        buffer = io.BytesIO(); figure.savefig(buffer, format="png", dpi=120); plt.close(figure); buffer.seek(0)
+        gif_frames.append(Image.open(buffer).convert("P", palette=Image.Palette.ADAPTIVE))
+    if gif_frames:
+        gif_frames[0].save(args.output_dir / "convergence.gif", save_all=True, append_images=gif_frames[1:], duration=220, loop=0, optimize=False)
 
     final_x = np.asarray(x_t[0, :, :, 0]); final_cont = np.clip((final_x + 1) / 2, 0, 1)
     extra = {}
