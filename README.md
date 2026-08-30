@@ -47,7 +47,7 @@ conda env create -f environment.yml
 conda activate tes-phy-guide
 ```
 
-The environment file installs PETSc/`petsc4py`, JAX, JAX-FEM, Gmsh Python bindings, Flax, Tesseract, and all remaining runtime dependencies.
+The environment file installs PETSc/`petsc4py`, JAX, JAX-FEM, Gmsh, Flax, Tesseract, and all remaining runtime dependencies.
 
 ## Build the Tesseract components
 
@@ -59,8 +59,6 @@ tesseract build components/tesseracts/tes2_manufacture
 tesseract build components/tesseracts/tes3_mesher
 tesseract build components/tesseracts/tes4_fem
 ```
-
-`build_all.sh` is only a convenience wrapper that executes the same four commands in the same order.
 
 The mesher image installs native Linux `gmsh`; users do not need Gmsh on the host.
 
@@ -78,6 +76,8 @@ python tesseract_workflow/app/docker_full_pipeline.py \
   --model diffusion/models/vpsde_model_6400.flax \
   --output-dir tesseract_workflow/results/tesseract_full
 ```
+
+Users can choose their own design targets to generate different structures.
 
 The orchestration script starts the four images through the Tesseract Python API. It does not call Gmsh or the TRI3 FEM solver on the host.
 
