@@ -51,13 +51,13 @@ The environment file installs PETSc/`petsc4py`, JAX, JAX-FEM, Gmsh, Flax, Tesser
 
 ## Build the Tesseract components
 
-Run these commands from `tesseract_workflow/`:
+Run these commands from the repository root:
 
 ```bash
-tesseract build components/tesseracts/tes1_diffusion
-tesseract build components/tesseracts/tes2_manufacture
-tesseract build components/tesseracts/tes3_mesher
-tesseract build components/tesseracts/tes4_fem
+tesseract build tesseract_workflow/components/tesseracts/tes1_diffusion
+tesseract build tesseract_workflow/components/tesseracts/tes2_manufacture
+tesseract build tesseract_workflow/components/tesseracts/tes3_mesher
+tesseract build tesseract_workflow/components/tesseracts/tes4_fem
 ```
 
 The mesher image installs native Linux `gmsh`; users do not need Gmsh on the host.
