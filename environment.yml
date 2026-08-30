@@ -1,0 +1,12 @@
+name: tes-phy-guide
+
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.10
+  - pip
+  - petsc=3.24
+  - petsc4py=3.24
+  - pip:
+      - -e ./tesseract_workflow[run,jax]

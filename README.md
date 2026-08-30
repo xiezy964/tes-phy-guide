@@ -37,18 +37,17 @@ The first 20 sampling steps use the original structured 64×64 QUAD4 JAX-FEM gui
 ## Prerequisites
 
 1. Docker Desktop or Docker Engine must be running.
-2. Python 3.10+ is required for the orchestration process and the original QUAD4 JAX-FEM warm-up.
+2. Conda is required to create the tested Python environment.
 3. Download `vpsde_model_6400.flax` from the GitHub Releases page and place it at `diffusion/models/vpsde_model_6400.flax`. The trained checkpoint is distributed separately because of its size.
 
-Create an environment and install the project from the repository root:
+Create the complete environment from the repository root:
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate              # Windows: .venv\Scripts\activate
-pip install -e "./tesseract_workflow[run,jax]"
+conda env create -f environment.yml
+conda activate tes-phy-guide
 ```
 
-This single command installs JAX, JAX-FEM, PETSc/`petsc4py`, Gmsh Python bindings, Flax, Tesseract, and the remaining runtime dependencies. If you are already inside `tesseract_workflow/`, use `pip install -e ".[run,jax]"` instead.
+The environment file installs PETSc/`petsc4py`, JAX, JAX-FEM, Gmsh Python bindings, Flax, Tesseract, and all remaining runtime dependencies.
 
 ## Build the Tesseract components
 
@@ -96,4 +95,4 @@ metrics.json         configuration and final conductivity
 
 ## Reproducibility record
 
-On Apple Silicon (`linux/arm64`), all four components were built with `tesseract build`; a complete 50-step run finished in approximately 122 seconds, with final effective conductivity `30.04953` for a target of `30.0`. Generated results are intentionally excluded from the source repository and are recreated by the command above.
+On Apple Silicon (`linux/arm64`), the Conda setup, all four `tesseract build` commands, and the complete 50-step workflow were verified from a clean environment. The final effective conductivity was `30.04953` for a target of `30.0`. Generated results are intentionally excluded from the source repository and are recreated by the command above.

@@ -9,9 +9,4 @@ __pycache__/
 diffusion/models/*.flax
 
 # Generated runs are reproducible and can be regenerated from the documented command.
-tesseract_workflow/results/local_full50/
-tesseract_workflow/results/strict_tesseract_target50/
-tesseract_workflow/results/strict_tesseract_target70/
-
-# Keep the compact validation and one canonical strict run in the repository.
-tesseract_workflow/results/*/steps/
+tesseract_workflow/results/
