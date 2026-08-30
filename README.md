@@ -48,20 +48,18 @@ conda env create -f environment.yml
 conda activate tes-phy-guide
 ```
 
-The environment file installs PETSc/`petsc4py`, JAX, JAX-FEM, Gmsh Python bindings, Flax, Tesseract, and all remaining runtime dependencies.
+The environment file installs PETSc/`petsc4py`, JAX, JAX-FEM, Gmsh, Flax, Tesseract, and all remaining runtime dependencies.
 
 ## Build the Tesseract components
 
-Run these commands from `tesseract_workflow/`:
+Run these commands from the repository root:
 
 ```bash
-tesseract build components/tesseracts/tes1_diffusion
-tesseract build components/tesseracts/tes2_manufacture
-tesseract build components/tesseracts/tes3_mesher
-tesseract build components/tesseracts/tes4_fem
+tesseract build tesseract_workflow/components/tesseracts/tes1_diffusion
+tesseract build tesseract_workflow/components/tesseracts/tes2_manufacture
+tesseract build tesseract_workflow/components/tesseracts/tes3_mesher
+tesseract build tesseract_workflow/components/tesseracts/tes4_fem
 ```
-
-`build_all.sh` is only a convenience wrapper that executes the same four commands in the same order.
 
 The mesher image installs native Linux `gmsh`; users do not need Gmsh on the host.
 
@@ -80,6 +78,8 @@ python tesseract_workflow/app/docker_full_pipeline.py \
   --output-dir tesseract_workflow/results/tesseract_full
 ```
 
+Users can choose their own design targets to generate different structures.
+
 The orchestration script starts the four images through the Tesseract Python API. It does not call Gmsh or the TRI3 FEM solver on the host.
 
 The output directory contains:
@@ -96,4 +96,4 @@ metrics.json         configuration and final conductivity
 
 ## Reproducibility record
 
-On Apple Silicon (`linux/arm64`), the Conda setup, all four `tesseract build` commands, and the complete 50-step workflow were verified from a clean environment. The final effective conductivity was `30.04953` for a target of `30.0`. Generated results are intentionally excluded from the source repository and are recreated by the command above.
+On Apple Silicon (`linux/arm64`), the Conda setup, all four `tesseract build` commands, and the complete 50-step workflow were verified from a clean environment. The final effective conductivity was `30.04953` for a target of `30.0`.
