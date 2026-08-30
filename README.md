@@ -2,11 +2,7 @@
 
 This repository demonstrates a manufacturing- and mesh-aware inverse-design workflow built from four native Tesseract components:
 
-```text
-tes1_diffusion → tes2_manufacture → tes3_mesher → tes4_fem
-      ↑                                       ↓
-      └──────────── physics VJP ──────────────┘
-```
+![Tesseract workflow](figs/tesseract.png)
 
 The first 20 sampling steps use the original structured 64×64 QUAD4 JAX-FEM guidance. From step 21, the candidate geometry is filtered and made manufacturable, meshed by strict Gmsh, evaluated by TRI3 thermal FEM, and differentiated back to the diffusion field through the manufacturing and meshing VJPs.
 
@@ -14,14 +10,18 @@ The first 20 sampling steps use the original structured 64×64 QUAD4 JAX-FEM gui
 |---|---|---|
 | `tes1_diffusion` | VP-SDE reverse update with physics guidance | JAX VJP |
 | `tes2_manufacture` | 4× upsampling, filtering, SDF smoothing, feature and connectivity checks | surrogate VJP |
-| `tes3_mesher` | strict, interface-conforming Gmsh TRI3 mesh | frozen-topology mesh-motion + contour VJP |
+| `tes3_mesher` | strict, interface-conforming Gmsh TRI3 mesh | frozen-topology VJP |
 | `tes4_fem` | differentiable thermal TRI3 solve | JAX VJP for conductivity and coordinates |
+
+## Design result
+
+<video src="figs/design_flow.mp4" controls="controls" width="100%"></video>
 
 ## Prerequisites
 
 1. Docker Desktop or Docker Engine must be running.
 2. Python 3.10+ with a virtual environment is required for the orchestration process and the original QUAD4 warm-up. Install JAX-FEM and its PETSc requirements in this environment. Specialized manufacturing, Gmsh, and TRI3 FEM dependencies are installed inside the Tesseract images.
-3. The repository must include `diffusion/models/vpsde_model_6400.flax`.
+3. Download `vpsde_model_6400.flax` from the GitHub Releases page and place it at `diffusion/models/vpsde_model_6400.flax`. The trained checkpoint is distributed separately because of its size.
 
 Create the orchestration environment from the repository root:
 
@@ -42,9 +42,9 @@ tesseract build components/tesseracts/tes3_mesher
 tesseract build components/tesseracts/tes4_fem
 ```
 
-`build_all.sh` is only a convenience wrapper that executes the same four commands in the same order. Do not use `docker build` for the components: `tesseract build` generates the Docker runtime, entrypoint, schemas, and VJP endpoints from `tesseract_api.py`, `tesseract_config.yaml`, and `tesseract_requirements.txt`.
+`build_all.sh` is only a convenience wrapper that executes the same four commands in the same order.
 
-The mesher image installs native Linux `gmsh` and `python3-gmsh`; users do not need Gmsh on the host.
+The mesher image installs native Linux `gmsh`; users do not need Gmsh on the host.
 
 ## Run the complete Tesseract workflow
 
@@ -58,7 +58,7 @@ python tesseract_workflow/app/docker_full_pipeline.py \
   --seed 123 \
   --target 30.0 \
   --model diffusion/models/vpsde_model_6400.flax \
-  --output-dir tesseract_workflow/results/strict_tesseract_full50
+  --output-dir tesseract_workflow/results/tesseract_full
 ```
 
 The orchestration script starts the four images through the Tesseract Python API. It does not call Gmsh or the TRI3 FEM solver on the host.
@@ -77,4 +77,4 @@ metrics.json         configuration and final conductivity
 
 ## Reproducibility record
 
-On Apple Silicon (`linux/arm64`), all four components were built with `tesseract build`; the complete 50-step run finished in 122.3 seconds. The final effective conductivity was `30.04953` for a target of `30.0`. The verified output is stored in `results/strict_tesseract_full50/`. The diffusion checkpoint is tracked with Git LFS because it exceeds GitHub's normal file-size limit.
+On Apple Silicon (`linux/arm64`), all four components were built with `tesseract build`; a complete 50-step run finished in approximately 122 seconds, with final effective conductivity `30.04953` for a target of `30.0`. Generated results are intentionally excluded from the source repository and are recreated by the command above.
