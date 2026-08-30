@@ -1,6 +1,19 @@
 # Tesseract Physics-Guided Diffusion Design
 
-This repository demonstrates a manufacturing- and mesh-aware inverse-design workflow built from four native Tesseract components:
+A project for the Tesseract Hackathon, Track 1: **Inverse Design & Shape Optimization**.
+
+This project combines physics-guided diffusion, manufacturability constraints,
+interface-conforming Gmsh meshing, and differentiable thermal FEM into one
+modular inverse-design workflow.
+
+### Video walkthrough
+
+We prepared a five-minute walkthrough of the workflow and its results:
+[watch the demo on YouTube](https://www.youtube.com/watch?v=wj88fCwxIfs).
+
+### Tesseract workflow
+
+The workflow is built from four native Tesseract components:
 
 ![Tesseract workflow](figs/tesseract.png)
 
