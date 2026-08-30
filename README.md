@@ -95,4 +95,4 @@ metrics.json         configuration and final conductivity
 
 ## Reproducibility record
 
-On Apple Silicon (`linux/arm64`), the Conda setup, all four `tesseract build` commands, and the complete 50-step workflow were verified from a clean environment. The final effective conductivity was `30.04953` for a target of `30.0`. Generated results are intentionally excluded from the source repository and are recreated by the command above.
+On Apple Silicon (`linux/arm64`), the Conda setup, all four `tesseract build` commands, and the complete 50-step workflow were verified from a clean environment. The final effective conductivity was `30.04953` for a target of `30.0`.
